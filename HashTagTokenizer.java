@@ -2,36 +2,35 @@
 
 public class HashTagTokenizer {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
+        String hashTag = args[0];
+        String[] dictionary = readDictionary("dictionary.txt");
+        breakHashTag(hashTag, dictionary);
+    }
 
-		String hashTag = args[0];
-		String []dictionary = readDictionary("dictionary.txt");
-		breakHashTag(hashTag, dictionary);
-	}
+    public static String[] readDictionary(String fileName) {
+        String[] dictionary = new String[3000];
 
-	public static String[] readDictionary(String fileName) {
-		String[] dictionary = new String[3000];
+        In in = new In(fileName);
+        for (int i = 0; i < dictionary.length; i++) {
+            String word = in.readString();
+            dictionary[i] = word;
+        }
 
-		In in = new In(fileName);
+        return dictionary;
+    }
 
-		for (int i = 0; i < dictionary.length; i++) {
-			String word = in.readString();
-			dictionary[i] = word;
-		}
+    public static boolean existInDictionary(String word, String[] dictionary) {
+        for (int i = 0; i < dictionary.length; i++) {
+            if (dictionary[i].equals(word)) {
+                return true;
+            }
+        }
 
-		return dictionary;
-	}
+        return false;
+    }
 
-	public static boolean existInDictionary(String word, String []dictionary) {
-		for (int i = 0; i < dictionary.length; i++) {
-			if (word == dictionary[i]) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static void breakHashTag(String hashtag, String[] dictionary) {
+    public static void breakHashTag(String hashtag, String[] dictionary) {
         // Base case: do nothing (return) if hashtag is an empty string.
         if (hashtag.isEmpty()) {
             return;
@@ -47,9 +46,8 @@ public class HashTagTokenizer {
             if (isWord) {
                 System.out.println(prefixCheck);
                 breakHashTag(hashtag.substring(i), dictionary);
-                i = N;
+                i = N; // Stops the for loop
             }
         }
     }
-
 }
